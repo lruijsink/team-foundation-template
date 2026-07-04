@@ -47,18 +47,18 @@ TODO: Explain `tools/linter.sh`
 
 Defined in `.githooks`, applied by default by git
 
-| Hook         | Description                                                                                                 |
+| Hook         | Description                                                                                                  |
 | ------------ | ------------------------------------------------------------------------------------------------------------ |
-| `pre-push`   | Reject push on linting failure, compares changes to `origin/HEAD`                                           |
-| `pre-commit` | Reject commit on linting failure, compares staged changes; on by default, disable with `git config hooks.lintOnCommit false` |
+| `pre-push`   | Reject push on linting failure, vs. `origin/HEAD`                                                            |
+| `pre-commit` | Reject commit on linting failure, vs. staged changes. On by default, disable with `hooks.lintOnCommit false` |
 
 ### Claude hooks
 
 Defined in `.claude/settings.json`, applied by default by Claude
 
-| Hook                         | Description                                                                                     |
-| ---------------------------- | ------------------------------------------------------------------------------------------------- |
-| `PostToolUse`, `Write`       | `git add` files Claude creates                                                                   |
-| `PostToolUse`, `Write\|Edit` | Auto-format files Claude edits, off by default, enable with `git config hooks.claude.autoFormat true` |
+| Hook                         | Description                                                                                |
+| ---------------------------- | ------------------------------------------------------------------------------------------ |
+| `PostToolUse`, `Write`       | `git add` files Claude creates                                                             |
+| `PostToolUse`, `Write\|Edit` | Auto-format files Claude edits. Off by default, enable with `hooks.claude.autoFormat true` |
 
 ## TODO: Repository bootstrapping
