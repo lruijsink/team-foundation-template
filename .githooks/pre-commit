@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-if [ "$(git config --type=bool --get hooks.autoFormat)" = "true" ]; then
-  tools/linter.sh -w -s
-  git diff --cached --name-only -z | xargs -0 -r git add
+if [ "$(git config --type=bool --get hooks.lintOnCommit)" != "false" ]; then
+  tools/linter.sh -s
 fi

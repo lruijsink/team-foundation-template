@@ -34,7 +34,7 @@ fi
 mode_args="$*"
 
 if [[ "$1" == "-s" ]]; then
-  files=$(git diff --name-only HEAD; git diff --cached --name-only HEAD)
+  files=$(git diff --name-only --diff-filter=d HEAD)
 elif [[ "$1" == "-p" ]]; then
   base_ref=$(git symbolic-ref --short refs/remotes/origin/HEAD)
   merge_base=$(git merge-base HEAD "$base_ref")
@@ -46,13 +46,19 @@ fi
 exit_code=0
 
 kt_files=$(echo "$files" | grep -E '\.(kt|kts)$' || true)
+md_files=$(echo "$files" | grep -E '\.(md|mdx)$' || true)
+
+if [[ "$ktlint_flag" == "-F" && ( -n $kt_files || -n $md_files ) ]]; then
+  echo "Auto-formatting:"
+fi
+
 if [[ -n $kt_files ]]; then
+  [[ "$ktlint_flag" == "-F" ]] && echo "$kt_files"
   echo "$kt_files" | xargs ktlint $ktlint_flag || exit_code=1
 fi
 
 # Prettier is advisory only (conflicts with the IntelliJ formatter), so it
 # never fails the script, regardless of check/write mode.
-md_files=$(echo "$files" | grep -E '\.(md|mdx)$' || true)
 if [[ -n $md_files ]]; then
   echo "$md_files" | xargs prettier $prettier_flag || true
 fi
