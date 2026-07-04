@@ -1,0 +1,11 @@
+# Mac OS
+.DS_Store
+
+# Editors
+.idea/
+
+# Tools
+.claude/
+
+# Maven
+target/
