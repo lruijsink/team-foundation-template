@@ -54,7 +54,7 @@ Defined in `.githooks`, applied by default by git
 
 Defined in `.claude/settings.json`, applied by default by Claude
 
-| Hook                         | Description                                |
-|------------------------------|--------------------------------------------|
-| `PostToolUse`, `Write`       | `git add` files Claude creates             |
-| `PostToolUse`, `Write\|Edit` | Auto-format files Claude creates and edits |
+| Hook                         | Description                                                    |
+|------------------------------|----------------------------------------------------------------|
+| `PostToolUse`, `Write`       | `git add` files Claude creates                                 |
+| `PostToolUse`, `Write\|Edit` | Auto-format files Claude edits, also set by `hooks.autoFormat` |
