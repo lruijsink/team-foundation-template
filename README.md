@@ -34,6 +34,8 @@ claude "Execute prompts/setup-helper.md"
 
 ### Linters
 
+TODO: Explain `tools/linter.sh`
+
 | Linter     | File types   | Enforced              | Settings      | Compatibility      |
 |------------|--------------|-----------------------|---------------|--------------------|
 | `ktlint`   | `.kt` `.kts` | Yes, required to push | .editorconfig | CLI, IntelliJ IDEA |
