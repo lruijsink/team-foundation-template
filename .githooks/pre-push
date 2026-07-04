@@ -4,7 +4,7 @@ set -euo pipefail
 base_ref=$(git symbolic-ref --short refs/remotes/origin/HEAD)
 merge_base=$(git merge-base HEAD "$base_ref")
 
-files=$(git diff --name-only "$merge_base" HEAD)
+files=$(git diff --name-only --diff-filter=d "$merge_base" HEAD)
 
 kt_files=$(echo "$files" | grep -E '\.(kt|kts)$' || true)
 if [[ -n $kt_files ]]; then
