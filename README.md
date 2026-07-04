@@ -43,14 +43,16 @@ claude "Execute prompts/setup-helper.md"
 
 ### git hooks
 
-| Hook                   | Description                                                                            |
-|------------------------|----------------------------------------------------------------------------------------|
-| `.githooks/pre-push`   | Reject pushed commits that fail linting, compares changes to `origin/HEAD`, _required_ |
-| `.githooks/pre-commit` | Auto-format changes on commit, set by `git config hooks.autoFormat on/off`             |
+Defined in `.githooks`, applied by default by git
+
+| Hook         | Description                                                                |
+|--------------|----------------------------------------------------------------------------|
+| `pre-push`   | Reject push on linting failure, compares changes to `origin/HEAD`          |
+| `pre-commit` | Auto-format changes on commit, set by `git config hooks.autoFormat on/off` |
 
 ### Claude hooks
 
-Defined by `.claude/settings.json`
+Defined in `.claude/settings.json`, applied by default by Claude
 
 | Hook                         | Description                                |
 |------------------------------|--------------------------------------------|
