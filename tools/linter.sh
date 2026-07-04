@@ -1,14 +1,23 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+print_usage() {
+  echo "Usage: $0 [-w] -s | -p | <path> [<path> ...]"
+  echo "  -w write/format files in place instead of just checking"
+  echo "  -s files staged or modified vs HEAD"
+  echo "  -p files changed since merge-base with origin/HEAD (matches pre-push scope)"
+  echo "  <path>...   operate on specific files or directories directly"
+}
+
 usage() {
-  echo "Usage: $0 [-w] -s | -p | <path> [<path> ...]" >&2
-  echo "  -w write/format files in place instead of just checking" >&2
-  echo "  -s files staged or modified vs HEAD" >&2
-  echo "  -p files changed since merge-base with origin/HEAD (matches pre-push scope)" >&2
-  echo "  <path>...   operate on specific files or directories directly" >&2
+  print_usage >&2
   exit 1
 }
+
+if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
+  print_usage
+  exit 0
+fi
 
 ktlint_flag=""
 prettier_flag="-c"
