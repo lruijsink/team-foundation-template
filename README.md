@@ -32,11 +32,27 @@ claude "Execute prompts/setup-helper.md"
 | [prettier](https://prettier.io/)                | Generic linter (used for Markdown)  |
 | kubectl, kubectx                                | Kubernetes CLI                      |
 
-### Linting
+### Linters
 
-| Hook                      | Description                                    | Setting                             |
-|---------------------------|------------------------------------------------|-------------------------------------|
-| `pre-push` git hook       | Reject pushing changes that don't pass linting | Enforced by repository              |
-| `pre-commit` git hook     | Auto-format changed files on commit (TODO)     | `git config hooks.autoFormat`       |
-| `PostToolUse` Claude hook | `git add` files Claude creates                 | Enforced by `.claude/settings.json` |
-| `PostToolUse` Claude hook | Auto-format files Claude creates and edits     | Enforced by `.claude/settings.json` |
+| Linter     | File types   | Enforced              | Settings      | Compatibility      |
+|------------|--------------|-----------------------|---------------|--------------------|
+| `ktlint`   | `.kt` `.kts` | Yes, required to push | .editorconfig | CLI, IntelliJ IDEA |
+| `prettier` | `.md` `.mdx` | No                    | .prettierrc   | CLI [1]            | 
+
+[1]: Compatible but only works in projects with NPM, not Maven
+
+### git hooks
+
+| Hook                   | Description                                                                            |
+|------------------------|----------------------------------------------------------------------------------------|
+| `.githooks/pre-push`   | Reject pushed commits that fail linting, compares changes to `origin/HEAD`, _required_ |
+| `.githooks/pre-commit` | Auto-format changes on commit, set by `git config hooks.autoFormat on/off`             |
+
+### Claude hooks
+
+Defined by `.claude/settings.json`
+
+| Hook                         | Description                                |
+|------------------------------|--------------------------------------------|
+| `PostToolUse`, `Write`       | `git add` files Claude creates             |
+| `PostToolUse`, `Write\|Edit` | Auto-format files Claude creates and edits |

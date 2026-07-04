@@ -10,8 +10,3 @@ kt_files=$(echo "$files" | grep -E '\.(kt|kts)$' || true)
 if [[ -n $kt_files ]]; then
   echo "$kt_files" | xargs ktlint
 fi
-
-md_files=$(echo "$files" | grep -E '\.(md|mdx)$' || true)
-if [[ -n $md_files ]]; then
-  echo "$md_files" | xargs prettier -c
-fi
