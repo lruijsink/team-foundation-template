@@ -2,4 +2,5 @@
 
 if [ "$(git config --type=bool --get hooks.autoFormat)" = "true" ]; then
   tools/linter.sh -w -s
+  git diff --cached --name-only -z | xargs -0 -r git add
 fi
