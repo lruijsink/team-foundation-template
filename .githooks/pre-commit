@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 
 if [ "$(git config --type=bool --get hooks.autoFormat)" = "true" ]; then
-  scripts/auto-format.sh
+  tools/linter.sh -w -s
 fi

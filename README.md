@@ -37,7 +37,7 @@ claude "Execute prompts/setup-helper.md"
 | Linter     | File types   | Enforced              | Settings      | Compatibility      |
 |------------|--------------|-----------------------|---------------|--------------------|
 | `ktlint`   | `.kt` `.kts` | Yes, required to push | .editorconfig | CLI, IntelliJ IDEA |
-| `prettier` | `.md` `.mdx` | No                    | .prettierrc   | CLI [1]            | 
+| `prettier` | `.md` `.mdx` | No                    | .prettierrc   | CLI [1]            |
 
 [1]: Compatible but only works in projects with NPM, not Maven
 

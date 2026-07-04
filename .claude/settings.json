@@ -15,7 +15,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "if [ \"$(git config --type=bool --get hooks.autoFormat)\" = \"true\" ]; then scripts/auto-format.sh; fi"
+            "command": "if [ \"$(git config --type=bool --get hooks.autoFormat)\" = \"true\" ]; then tools/linter.sh -w \"$(jq -r '.tool_input.file_path')\"; fi"
           }
         ]
       }
