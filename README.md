@@ -25,12 +25,12 @@ claude "Execute prompts/setup-helper.md"
 
 ### Brew packages
 
-| Package                                               | Description             |
-|-------------------------------------------------------|-------------------------|
-| [Google Cloud SDK](https://docs.cloud.google.com/sdk) | GCP command line utils  |
-| [ktlint](https://github.com/ktlint/ktlint)            | Kotlin linter           |
-| [Prettier](https://prettier.io/)                      | JS, TS, Markdown linter |
-| `kubectl`, `kubectx`                                  | Kubernetes CLI          |
+| Package                                         | Description                         |
+|-------------------------------------------------|-------------------------------------|
+| [gcloud-cli](https://docs.cloud.google.com/sdk) | Google Cloud SDK command line utils |
+| [ktlint](https://github.com/ktlint/ktlint)      | Kotlin linter                       |
+| [Prettier](https://prettier.io/)                | JS, TS, Markdown linter             |
+| kubectl, kubectx                                | Kubernetes CLI                      |
 
 ### Auto-formatting
 
