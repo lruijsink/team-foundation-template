@@ -17,7 +17,7 @@ Install and set up these dependencies first:
 
 ### Setup helper
 
-This prompt sets up the rest of the tools and hooks automatically:
+Run this prompt to set up the rest of the tools and dependencies automatically:
 
 ```bash
 claude "Execute prompts/setup-helper.md"
@@ -29,13 +29,14 @@ claude "Execute prompts/setup-helper.md"
 |-------------------------------------------------|-------------------------------------|
 | [gcloud-cli](https://docs.cloud.google.com/sdk) | Google Cloud SDK command line utils |
 | [ktlint](https://github.com/ktlint/ktlint)      | Kotlin linter                       |
-| [Prettier](https://prettier.io/)                | JS, TS, Markdown linter             |
+| [prettier](https://prettier.io/)                | Generic linter (used for Markdown)  |
 | kubectl, kubectx                                | Kubernetes CLI                      |
 
-### Auto-formatting
+### Linting
 
-| Hook                                | Description                                                             |
-|-------------------------------------|-------------------------------------------------------------------------|
-| `pre-push` git hook                 | On push either: auto-format or reject on incorrectly formatted changes  |
-| `PreToolUse` on `Write` Claude hook | Format output before displaying to user, installed via `/update-config` |
-| `PostToolUse` on `Edit` Claude hook | Format entire file after modifying, installed via `/update-config`      |
+| Hook                      | Description                                    | Setting                             |
+|---------------------------|------------------------------------------------|-------------------------------------|
+| `pre-push` git hook       | Reject pushing changes that don't pass linting | Enforced by repository              |
+| `pre-commit` git hook     | Auto-format changed files on commit (TODO)     | `git config hooks.autoFormat`       |
+| `PostToolUse` Claude hook | `git add` files Claude creates                 | Enforced by `.claude/settings.json` |
+| `PostToolUse` Claude hook | Auto-format files Claude creates and edits     | Enforced by `.claude/settings.json` |
