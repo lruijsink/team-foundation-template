@@ -1,5 +1,6 @@
 fun main (formatted : Int)
 {
-    println("Formatting could be better"
+    println(
+        "Formatting could be better"
     )
 }

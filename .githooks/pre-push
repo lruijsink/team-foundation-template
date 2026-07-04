@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+base_ref=$(git symbolic-ref --short refs/remotes/origin/HEAD)
+merge_base=$(git merge-base HEAD "$base_ref")
+
+files=$(git diff --name-only "$merge_base" HEAD)
+
+echo "$files" | grep -E '\.(kt|kts)$' | xargs -r ktlint
+echo "$files" | grep -E '\.(ts|tsx|js|jsx|md)$' | xargs -r prettier -c
