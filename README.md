@@ -29,19 +29,40 @@ claude "Execute prompts/setup-helper.md"
 | ----------------------------------------------- | ----------------------------------- |
 | [gcloud-cli](https://docs.cloud.google.com/sdk) | Google Cloud SDK command line utils |
 | [ktlint](https://github.com/ktlint/ktlint)      | Kotlin linter                       |
-| [prettier](https://prettier.io/)                | Generic linter (used for Markdown)  |
 | kubectl, kubectx                                | Kubernetes CLI                      |
+
+Also run `npm install -g prettier` once, this installs `prettier` globally so both the CLI (`tools/linter.sh`, via
+`npx`) and the IntelliJ Prettier plugin resolve the same version.
 
 ### Linters
 
 TODO: Explain `tools/linter.sh`
 
-| Linter     | File types   | Enforced              | Settings      | Compatibility      |
-| ---------- | ------------ | --------------------- | ------------- | ------------------ |
-| `ktlint`   | `.kt` `.kts` | Yes, required to push | .editorconfig | CLI, IntelliJ IDEA |
-| `prettier` | `.md` `.mdx` | No                    | .prettierrc   | CLI [1]            |
+| Linter     | File types   | Enforced              | Settings      |
+| ---------- | ------------ | --------------------- | ------------- |
+| `ktlint`   | `.kt` `.kts` | Yes, required to push | .editorconfig |
+| `prettier` | `.md` `.mdx` | Yes, required to push | .prettierrc   |
 
-[1]: Compatible but only works in projects with NPM, not Maven
+### IntelliJ IDEA: Auto-formatting settings
+
+To auto-apply the linting rules correctly in IntelliJ IDEA, configure the following:
+
+- **ktlint**
+  - Install [ktlint plugin](https://plugins.jetbrains.com/plugin/15057-ktlint)
+  - Go to IDEA → Settings... → Tools → KtLint
+    - Enable "Distract free" mode
+    - Enable "✅ on save"
+- **Prettier** (comes bundled with IDEA)
+  - Run `npm install -g prettier`
+  - Go to IDEA → Settings... → Languages & Frameworks → JavaScript → Prettier
+    - Select "Automatic Prettier configuration" (uses the globally installed package)
+    - Add `md` and `mdx` to the "Run for files:" glob
+    - Enable "✅ Run on save"
+    - Enable "✅ Run on paste"
+    - Enable "✅ Prefer Prettier configuration to IDE code style"
+  - Go to IntelliJ IDEA → Settings... → Editor → Inspections
+    - Disable "Markdown table formatting"
+    - Disable other inspections if they conflict with Prettier (they don't consider `.prettierrc`)
 
 ### git hooks
 
@@ -58,7 +79,6 @@ Defined in `.claude/settings.json`, applied by default by Claude
 
 | Hook                         | Description                                                                                |
 | ---------------------------- | ------------------------------------------------------------------------------------------ |
-| `PostToolUse`, `Write`       | `git add` files Claude creates                                                             |
 | `PostToolUse`, `Write\|Edit` | Auto-format files Claude edits. Off by default, enable with `hooks.claude.autoFormat true` |
 
 ## TODO: Repository bootstrapping

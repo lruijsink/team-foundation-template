@@ -10,3 +10,6 @@
 
 # Maven
 target/
+
+# NPM (hosts prettier only, for IntelliJ plugin detection)
+node_modules/
