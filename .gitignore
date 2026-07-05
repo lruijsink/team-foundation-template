@@ -2,14 +2,12 @@
 .DS_Store
 
 # Editors
-.idea/
+.idea/*
 
 # Claude
 .claude/settings.local.json
 .claude/.memory/
 
-# Maven
-target/
-
-# NPM (hosts prettier only, for IntelliJ plugin detection)
-node_modules/
+# Not recommended to track these, but they're included in this repo as copy-pastable resources
+!.idea/ktlint-plugin.xml
+!.idea/prettier.xml
