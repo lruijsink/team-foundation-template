@@ -8,12 +8,30 @@ This repository holds all shared resources for Team Example.
 
 Install and set up these dependencies first:
 
-| Dependency                  | Description                |
-| --------------------------- | -------------------------- |
-| [Homebrew](https://brew.sh) | Mac OS package manager     |
-| Claude Code                 | AI agent CLI               |
-| IntelliJ IDEA               | IDE                        |
-| Docker + Kubernetes         | Desktop app of your choice |
+| Dependency                                                         | Description                |
+| ------------------------------------------------------------------ | -------------------------- |
+| [Homebrew](https://brew.sh)                                        | Mac OS package manager     |
+| [Node.js](https://nodejs.org)                                      | For NPM                    |
+| Docker + Kubernetes                                                | Desktop app of your choice |
+| IntelliJ IDEA                                                      | IDE                        |
+| [ktlint plugin](https://plugins.jetbrains.com/plugin/15057-ktlint) | IntelliJ ktlint support    |
+| Claude Code                                                        | AI agent CLI               |
+
+### Packages
+
+| Package                                         | Installed via | Description                         |
+| ----------------------------------------------- | ------------- | ----------------------------------- |
+| [gcloud-cli](https://docs.cloud.google.com/sdk) | Homebrew      | Google Cloud SDK command line utils |
+| kubectl, kubectx                                | Homebrew      | Kubernetes CLI                      |
+| [ktlint](https://github.com/ktlint/ktlint)      | Homebrew      | Kotlin linter                       |
+| [Prettier](https://prettier.io)                 | NPM           | Markdown linter                     |
+
+Install via:
+
+```bash
+brew install gcloud-cli kubectl kubectx ktlint
+npm install -g prettier
+```
 
 ### Setup helper
 
@@ -23,46 +41,38 @@ Run this prompt to set up the rest of the tools and dependencies automatically:
 claude "Execute prompts/setup-helper.md"
 ```
 
-### Brew packages
+### Configure IntelliJ
 
-| Package                                         | Description                         |
-| ----------------------------------------------- | ----------------------------------- |
-| [gcloud-cli](https://docs.cloud.google.com/sdk) | Google Cloud SDK command line utils |
-| [ktlint](https://github.com/ktlint/ktlint)      | Kotlin linter                       |
-| kubectl, kubectx                                | Kubernetes CLI                      |
+IntelliJ requires ktlint and Prettier settings to be set per-project, there is no overridable global IDE default. The
+default settings do not apply Prettier formatting, even if a `.prettierrc` file is present. Format on save can also not
+be set globally, and is disabled by default, though it is recommended to enable. To enable automatic formatting
+consistent with the linters, copy the following files into every project's `.idea` folder:
 
-Also run `npm install -g prettier` once, this installs `prettier` globally so both the CLI (`tools/linter.sh`, via
-`npx`) and the IntelliJ Prettier plugin resolve the same version.
+- `.idea/prettier.xml`
+- `.idea/ktlint-plugin.xml`
 
-### Linters
-
-TODO: Explain `tools/linter.sh`
-
-| Linter     | File types   | Enforced              | Settings      |
-| ---------- | ------------ | --------------------- | ------------- |
-| `ktlint`   | `.kt` `.kts` | Yes, required to push | .editorconfig |
-| `prettier` | `.md` `.mdx` | Yes, required to push | .prettierrc   |
-
-### IntelliJ IDEA: Auto-formatting settings
-
-To auto-apply the linting rules correctly in IntelliJ IDEA, configure the following:
+Or apply these settings manually as follows:
 
 - **ktlint**
-  - Install [ktlint plugin](https://plugins.jetbrains.com/plugin/15057-ktlint)
-  - Go to IDEA → Settings... → Tools → KtLint
-    - Enable "Distract free" mode
-    - Enable "✅ on save"
+  - Go to `IntelliJ IDEA` → `Settings...` → `Tools` → `KtLint`
+    - Enable `Distract free mode`
+    - Enable `✅ on save`
+
 - **Prettier** (comes bundled with IDEA)
-  - Run `npm install -g prettier`
-  - Go to IDEA → Settings... → Languages & Frameworks → JavaScript → Prettier
-    - Select "Automatic Prettier configuration" (uses the globally installed package)
-    - Add `md` and `mdx` to the "Run for files:" glob
-    - Enable "✅ Run on save"
-    - Enable "✅ Run on paste"
-    - Enable "✅ Prefer Prettier configuration to IDE code style"
-  - Go to IntelliJ IDEA → Settings... → Editor → Inspections
-    - Disable "Markdown table formatting"
-    - Disable other inspections if they conflict with Prettier (they don't consider `.prettierrc`)
+  - Go to `IntelliJ IDEA` → `Settings...` → `Languages & Frameworks` → `JavaScript` → `Prettier`
+    - Select `🔘 Automatic Prettier configuration`
+    - Append `md` and `mdx` to the `Run for files:` glob file type list
+    - Enable `✅ Run on save`
+    - Enable `✅ Run on paste`
+    - Enable `✅ Prefer Prettier configuration to IDE code style`
+
+Even with Prettier enabled IntelliJ still displays conflicting inspections. Disable these via Context Actions when they
+appear, or directly in the settings:
+
+- Go to `IntelliJ IDEA` → `Settings...` → `Editor` → `Inspections`
+  - Disable `Markdown table formatting`
+  - Disable other inspections if they conflict with Prettier
+  - Select `Profile:` → `Stored in IDE` → `Default` to apply this to ALL projects by default
 
 ### git hooks
 
