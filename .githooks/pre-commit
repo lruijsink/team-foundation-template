@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-if [ "$(git config --type=bool --get hooks.lintOnCommit)" != "false" ]; then
-  tools/linter.sh -s
-fi

@@ -9,7 +9,7 @@ This repository holds all shared resources for Team Example.
 Install and set up these dependencies first:
 
 | Dependency                                                         | Description                |
-| ------------------------------------------------------------------ | -------------------------- |
+|--------------------------------------------------------------------|----------------------------|
 | [Homebrew](https://brew.sh)                                        | Mac OS package manager     |
 | [Node.js](https://nodejs.org)                                      | For NPM                    |
 | Docker + Kubernetes                                                | Desktop app of your choice |
@@ -19,26 +19,16 @@ Install and set up these dependencies first:
 
 ### Packages
 
-| Package                                         | Installed via | Description                         |
-| ----------------------------------------------- | ------------- | ----------------------------------- |
-| [gcloud-cli](https://docs.cloud.google.com/sdk) | Homebrew      | Google Cloud SDK command line utils |
-| kubectl, kubectx                                | Homebrew      | Kubernetes CLI                      |
-| [ktlint](https://github.com/ktlint/ktlint)      | Homebrew      | Kotlin linter                       |
-| [Prettier](https://prettier.io)                 | NPM           | Markdown linter                     |
+| Package                                    | Installed via | Description     |
+|--------------------------------------------|---------------|-----------------|
+| [ktlint](https://github.com/ktlint/ktlint) | Homebrew      | Kotlin linter   |
+| [Prettier](https://prettier.io)            | NPM           | Markdown linter |
 
 Install via:
 
 ```bash
-brew install gcloud-cli kubectl kubectx ktlint
+brew install ktlint
 npm install -g prettier
-```
-
-### Setup helper
-
-Run this prompt to set up the rest of the tools and dependencies automatically:
-
-```bash
-claude "Execute prompts/setup-helper.md"
 ```
 
 ### Configure IntelliJ
@@ -54,32 +44,30 @@ consistent with the linters, copy the following files into every project's `.ide
 Or apply these settings manually as follows:
 
 - **ktlint**
-  - Go to `IntelliJ IDEA` → `Settings...` → `Tools` → `KtLint`
-    - Enable `Distract free mode`
-    - Enable `✅ on save`
+    - Go to `IntelliJ IDEA` → `Settings...` → `Tools` → `KtLint`
+        - Enable `Distract free mode`
+        - Enable `✅ on save`
 
 - **Prettier** (comes bundled with IDEA)
-  - Go to `IntelliJ IDEA` → `Settings...` → `Languages & Frameworks` → `JavaScript` → `Prettier`
-    - Select `🔘 Automatic Prettier configuration`
-    - Append `md` and `mdx` to the `Run for files:` glob file type list
-    - Enable `✅ Run on save`
-    - Enable `✅ Run on paste`
-    - Enable `✅ Prefer Prettier configuration to IDE code style`
+    - Go to `IntelliJ IDEA` → `Settings...` → `Languages & Frameworks` → `JavaScript` → `Prettier`
+        - Select `🔘 Automatic Prettier configuration`
+        - Append `md` and `mdx` to the `Run for files:` glob file type list
+        - Enable `✅ Run on save`
+        - Enable `✅ Run on paste`
+        - Enable `✅ Prefer Prettier configuration to IDE code style`
 
 Even with Prettier enabled IntelliJ still displays conflicting inspections. Disable these via Context Actions when they
 appear, or directly in the settings:
 
 - Go to `IntelliJ IDEA` → `Settings...` → `Editor` → `Inspections`
-  - Disable `Markdown table formatting`
-  - Disable other inspections if they conflict with Prettier
-  - Select `Profile:` → `Stored in IDE` → `Default` to apply this to ALL projects by default
+    - Disable `Markdown table formatting`
+    - Disable other inspections if they conflict with Prettier
+    - Select `Profile:` → `Stored in IDE` → `Default` to apply this to ALL projects by default
 
 ### git hooks
 
-Defined in `.githooks`, applied by default by git
-
 | Hook         | Description                                                                                                  |
-| ------------ | ------------------------------------------------------------------------------------------------------------ |
+|--------------|--------------------------------------------------------------------------------------------------------------|
 | `pre-push`   | Reject push on linting failure, vs. `origin/HEAD`                                                            |
 | `pre-commit` | Reject commit on linting failure, vs. staged changes. On by default, disable with `hooks.lintOnCommit false` |
 
@@ -88,7 +76,5 @@ Defined in `.githooks`, applied by default by git
 Defined in `.claude/settings.json`, applied by default by Claude
 
 | Hook                         | Description                                                                                |
-| ---------------------------- | ------------------------------------------------------------------------------------------ |
+|------------------------------|--------------------------------------------------------------------------------------------|
 | `PostToolUse`, `Write\|Edit` | Auto-format files Claude edits. Off by default, enable with `hooks.claude.autoFormat true` |
-
-## TODO: Repository bootstrapping

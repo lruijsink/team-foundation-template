@@ -7,7 +7,3 @@
 # Claude
 .claude/settings.local.json
 .claude/.memory/
-
-# Not recommended to track these, but they're included in this repo as copy-pastable resources
-!.idea/ktlint-plugin.xml
-!.idea/prettier.xml
