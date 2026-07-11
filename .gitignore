@@ -2,8 +2,9 @@
 .DS_Store
 
 # Editors
-.idea/*
+.idea
 
 # Claude
+CLAUDE.local.md
 .claude/settings.local.json
 .claude/.memory/
