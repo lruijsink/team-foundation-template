@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(git rev-parse --show-toplevel)"
+
+status=0
+
+# ACMR: added/copied/modified/renamed - excludes deletions, nothing to lint there.
+files=$(git diff --cached --name-only --diff-filter=ACMR)
+
+# Looping over a variable via a here-string, not a pipe, keeps this loop in
+# the current shell so `status` below isn't lost to a subshell.
+while IFS= read -r file; do
+  [ -z "$file" ] && continue
+  # ":$file" = this file's staged content, not what's on disk.
+  if ! git show ":$file" 2> /dev/null | ./lint.sh "$file" > /dev/null 2>&1; then
+    [ "$status" -eq 0 ] && echo "Commit rejected:"
+    echo "  $file"
+    status=1
+  fi
+done <<< "$files"
+
+exit "$status"
