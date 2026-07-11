@@ -12,7 +12,6 @@ Install and set up these dependencies first:
 |--------------------------------------------------------------------|----------------------------|
 | [Homebrew](https://brew.sh)                                        | Mac OS package manager     |
 | [Node.js](https://nodejs.org)                                      | For NPM                    |
-| Docker + Kubernetes                                                | Desktop app of your choice |
 | IntelliJ IDEA                                                      | IDE                        |
 | [ktlint plugin](https://plugins.jetbrains.com/plugin/15057-ktlint) | IntelliJ ktlint support    |
 | Claude Code                                                        | AI agent CLI               |
@@ -63,18 +62,3 @@ appear, or directly in the settings:
     - Disable `Markdown table formatting`
     - Disable other inspections if they conflict with Prettier
     - Select `Profile:` → `Stored in IDE` → `Default` to apply this to ALL projects by default
-
-### git hooks
-
-| Hook         | Description                                                                                                  |
-|--------------|--------------------------------------------------------------------------------------------------------------|
-| `pre-push`   | Reject push on linting failure, vs. `origin/HEAD`                                                            |
-| `pre-commit` | Reject commit on linting failure, vs. staged changes. On by default, disable with `hooks.lintOnCommit false` |
-
-### Claude hooks
-
-Defined in `.claude/settings.json`, applied by default by Claude
-
-| Hook                         | Description                                                                                |
-|------------------------------|--------------------------------------------------------------------------------------------|
-| `PostToolUse`, `Write\|Edit` | Auto-format files Claude edits. Off by default, enable with `hooks.claude.autoFormat true` |
