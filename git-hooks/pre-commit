@@ -13,7 +13,7 @@ files=$(git diff --cached --name-only --diff-filter=ACMR)
 # A file can be partially staged, so what's on disk isn't necessarily what's about to be committed. This script creates
 # temp files with the staged contents only, and lints those. They live under the repo root - rather than something
 # like `/tmp/` - so that config files (e.g. `.editorconfig`, `.prettierrc`) are still resolved via upward search.
-tmp_root="$(git rev-parse --show-toplevel)/.lint-tmp/$$"
+tmp_root=.lint-tmp
 
 # Clean up the temp files afterwards, even if this script fails
 trap 'rm -rf "$tmp_root"' EXIT
