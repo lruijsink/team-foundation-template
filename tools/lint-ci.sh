@@ -20,7 +20,7 @@ status=0
 while IFS= read -r file; do # not `for file in $files`, as that splits on spaces/glob-expands special chars
   [ -z "$file" ] && continue
   if ! "$script_dir/lint.sh" "$file" > /dev/null 2>&1; then
-    [ "$status" -eq 0 ] && echo "Lint failed:"
+    [ "$status" -eq 0 ] && echo "Linting violations were detected in the following files, fix with tools/format.sh:"
     echo "  $file"
     status=1
   fi

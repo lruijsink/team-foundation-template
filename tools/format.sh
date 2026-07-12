@@ -40,7 +40,10 @@ status=0
 while IFS= read -r file; do # not `for file in $files`, as that splits on spaces/glob-expands special chars
   [ -z "$file" ] && continue
   if ! format_file "$file"; then
-    [ "$status" -eq 0 ] && echo "Could not format:"
+    if [ "$status" -eq 0 ]; then
+      echo  # newline to separate from auto-formatted file list
+      echo "Could not auto-format the following files, see errors above for what needs a manual fix:"
+    fi
     echo "  $file"
     status=1
   fi

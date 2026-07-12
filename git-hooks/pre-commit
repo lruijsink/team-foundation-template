@@ -44,7 +44,14 @@ while IFS= read -r file; do # not `for file in $files`, as that splits on spaces
   mkdir -p "$(dirname "$tmp_path")"
   git show ":$file" > "$tmp_path" 2> /dev/null || true
   if ! "$tools_dir/lint.sh" "$tmp_path" > /dev/null 2>&1; then
-    [ "$status" -eq 0 ] && echo "Commit rejected:"
+    if [ "$status" -eq 0 ]; then
+      if [ "$autofix" = true ]; then
+        echo # newline to separate from auto-formatting output
+        echo "Commit rejected due to linting violations in the following files:"
+      else
+        echo "Commit rejected due to linting violations in the following files, fix with tools/format.sh:"
+      fi
+    fi
     echo "  $file"
     status=1
   fi

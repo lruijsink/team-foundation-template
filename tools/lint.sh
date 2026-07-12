@@ -30,7 +30,7 @@ status=0
 while IFS= read -r file; do # not `for file in $files`, as that splits on spaces/glob-expands special chars
   [ -z "$file" ] && continue
   if ! lint_file "$file"; then
-    [ "$status" -eq 0 ] && echo "Lint failed:"
+    [ "$status" -eq 0 ] && echo "Linting violations were detected in the following files, fix with tools/format.sh:"
     echo "  $file"
     status=1
   fi
