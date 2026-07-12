@@ -5,6 +5,9 @@ set -euo pipefail
 # files did not pass the checks. This lists only the files, not why or what content didn't pass. For that refer to the
 # individual tools used (currently `ktlint` and `prettier`).
 
+# Find this script's location, to invoke `lint.sh` from the same directory later
+script_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+
 # Execute from repo root
 cd "$(git rev-parse --show-toplevel)"
 
@@ -16,7 +19,7 @@ status=0
 
 while IFS= read -r file; do # not `for file in $files`, as that splits on spaces/glob-expands special chars
   [ -z "$file" ] && continue
-  if ! ./lint.sh "$file" > /dev/null 2>&1; then
+  if ! "$script_dir/lint.sh" "$file" > /dev/null 2>&1; then
     [ "$status" -eq 0 ] && echo "Lint failed:"
     echo "  $file"
     status=1

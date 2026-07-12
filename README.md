@@ -66,9 +66,9 @@ appear, or directly in the settings:
 ## Linting
 
 - `git-hooks/pre-commit` - lints staged files on `git commit`, blocks the commit on failure
-- `lint-ci.sh` - lints every file, run by CI/CD. Source of truth for whether code is clean
-- `lint.sh` - lints one or more files/dirs, recursively. Used by the hook and CI, or run directly
-- `format.sh` - auto-formats one or more files/dirs, recursively. Fixes what it can, reports what it can't
+- `tools/lint-ci.sh` - lints every file, run by CI/CD. Source of truth for whether code is clean
+- `tools/lint.sh` - lints one or more files/dirs, recursively. Used by the hook and CI, or run directly
+- `tools/format.sh` - auto-formats one or more files/dirs, recursively. Fixes what it can, reports what it can't
 - `.editorconfig` - ktlint settings
 - `.prettierrc` - Prettier settings
 
