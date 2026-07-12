@@ -7,12 +7,24 @@ status=0
 # ACMR: added/copied/modified/renamed - excludes deletions, nothing to lint there.
 files=$(git diff --cached --name-only --diff-filter=ACMR)
 
-# Looping over a variable via a here-string, not a pipe, keeps this loop in
-# the current shell so `status` below isn't lost to a subshell.
+# A file can be partially staged, so what's on disk isn't necessarily what's
+# about to be committed. This creates a temp copy of the staged files instead,
+# and lints those. The copy goes under .git (never tracked) rather than /tmp
+# so that linters can resolve the correct config files (e.g. .editorconfig/
+# .prettierrc) by walking up the file tree. Use trap to clean up the temp files,
+# even if this script fails.
+tmp_root="$(git rev-parse --absolute-git-dir)/lint-tmp/$$"
+trap 'rm -rf "$tmp_root"' EXIT
+
+# Using `while` because `for file in $files` would split on spaces and glob-
+# expand special characters. The here-string (not a pipe) keeps the loop in this
+# shell, so `status` below isn't lost to a subshell.
 while IFS= read -r file; do
   [ -z "$file" ] && continue
-  # ":$file" = this file's staged content, not what's on disk.
-  if ! git show ":$file" 2> /dev/null | ./lint.sh "$file" > /dev/null 2>&1; then
+  tmp_path="$tmp_root/$file"
+  mkdir -p "$(dirname "$tmp_path")"
+  git show ":$file" > "$tmp_path" 2> /dev/null || true
+  if ! ./lint.sh "$tmp_path" > /dev/null 2>&1; then
     [ "$status" -eq 0 ] && echo "Commit rejected:"
     echo "  $file"
     status=1
