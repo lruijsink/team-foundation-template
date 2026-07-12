@@ -67,7 +67,8 @@ appear, or directly in the settings:
 
 - `git-hooks/pre-commit` - lints staged files on `git commit`, blocks the commit on failure
 - `lint-ci.sh` - lints every file, run by CI/CD. Source of truth for whether code is clean
-- `lint.sh` - common linting script used by both hook and CI
+- `lint.sh` - lints one or more files/dirs, recursively. Used by the hook and CI, or run directly
+- `format.sh` - auto-formats one or more files/dirs, recursively. Fixes what it can, reports what it can't
 - `.editorconfig` - ktlint settings
 - `.prettierrc` - Prettier settings
 
@@ -76,4 +77,7 @@ appear, or directly in the settings:
 | Kotlin   | `.kt`, `.kts` | [ktlint](https://github.com/ktlint/ktlint) |
 | Markdown | `.md`, `.mdx` | [Prettier](https://prettier.io)            |
 
-Diagnostic only, no auto-formatting.
+Auto-formatting is opt-in, off by default:
+
+- `git config hooks.auto-format true` - auto-fix fully staged files on `git commit`
+- `git config hooks.claude-auto-format true` - auto-fix files after Claude edits them

@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "autofix=$(git -C \"$CLAUDE_PROJECT_DIR\" config --bool hooks.claude-auto-format 2>/dev/null || echo false)\n[ \"$autofix\" = true ] || exit 0\nfile=$(jq -r '.tool_input.file_path')\n\"$CLAUDE_PROJECT_DIR/format.sh\" \"$file\" 2>/dev/null || true"
+          }
+        ]
+      }
+    ]
+  }
+}

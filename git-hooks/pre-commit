@@ -1,26 +1,38 @@
 #!/usr/bin/env bash
 set -euo pipefail
+
+# Execute from repo root
 cd "$(git rev-parse --show-toplevel)"
 
-status=0
+# Off by default - opt in per clone with `git config hooks.auto-format true`.
+autofix=$(git config --bool hooks.auto-format 2> /dev/null || echo false)
 
 # ACMR: added/copied/modified/renamed - excludes deletions, nothing to lint there.
 files=$(git diff --cached --name-only --diff-filter=ACMR)
 
-# A file can be partially staged, so what's on disk isn't necessarily what's
-# about to be committed. This creates a temp copy of the staged files instead,
-# and lints those. The copy goes under .git (never tracked) rather than /tmp
-# so that linters can resolve the correct config files (e.g. .editorconfig/
-# .prettierrc) by walking up the file tree. Use trap to clean up the temp files,
-# even if this script fails.
-tmp_root="$(git rev-parse --absolute-git-dir)/lint-tmp/$$"
+# A file can be partially staged, so what's on disk isn't necessarily what's about to be committed. This script creates
+# temp files with the staged contents only, and lints those. They live under the repo root - rather than something
+# like `/tmp/` - so that config files (e.g. `.editorconfig`, `.prettierrc`) are still resolved via upward search.
+tmp_root="$(git rev-parse --show-toplevel)/.lint-tmp/$$"
+
+# Clean up the temp files afterwards, even if this script fails
 trap 'rm -rf "$tmp_root"' EXIT
 
-# Using `while` because `for file in $files` would split on spaces and glob-
-# expand special characters. The here-string (not a pipe) keeps the loop in this
-# shell, so `status` below isn't lost to a subshell.
-while IFS= read -r file; do
+# Exit status to-be: don't exit early, always lint each file to display all files that don't pass linting
+status=0
+
+while IFS= read -r file; do # not `for file in $files`, as that splits on spaces/glob-expands special chars
   [ -z "$file" ] && continue
+
+  # Only auto-format fully staged files, to not `git add` unstaged changes.
+  # Not suppressed like the rest of this script's linter calls - format.sh
+  # reports what it fixed and, importantly, what it couldn't.
+  if [ "$autofix" = true ] && git diff --quiet -- "$file"; then
+    ./format.sh "$file" || true
+    git add -- "$file"
+  fi
+
+  # Fetch the staged contents with `git show` into a temp file and lint it
   tmp_path="$tmp_root/$file"
   mkdir -p "$(dirname "$tmp_path")"
   git show ":$file" > "$tmp_path" 2> /dev/null || true
@@ -29,6 +41,6 @@ while IFS= read -r file; do
     echo "  $file"
     status=1
   fi
-done <<< "$files"
+done <<< "$files" # Use here-string instead of pipe to not lose `status` updates to a subshell
 
 exit "$status"
